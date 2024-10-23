@@ -2,21 +2,31 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView, Pre
 import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/Theme';
-
+import { Linking } from 'react-native';
 
 const EmergencyContacts = ({navigation}) => {
 
 
 
   const emergencyContacts = [
-    { name: 'Police', phone: '100', image: require('../assets/images/EERAM-logo.png') },
-    { name: 'Ambulance', phone: '101', image: require('../assets/images/EERAM-logo.png')  },
-    { name: 'Fire Department', phone: '102', image: require('../assets/images/EERAM-logo.png') },
-    { name: 'Local Guardian', phone: '+1 234 567 890', image: require('../assets/images/EERAM-logo.png') },
-    { name: 'Local Guardian', phone: '+1 234 567 890', image: require('../assets/images/EERAM-logo.png') },
-    { name: 'Local Guardian', phone: '+1 234 567 890', image: require('../assets/images/EERAM-logo.png') }
+    { name: 'Phillipine National Emergency ', phone: '911', image: require('../assets/images/hotline call.png') },
+    { name: 'Bureau of Fire Protection', phone: '02-8426-0219', image: require('../assets/images/BFP.png')  },
+    { name: 'Philippine National Police', phone: '02-8722-0650', image: require('../assets/images/PNP.png') },
+    { name: 'NDDRMC', phone: '02-8911-5601', image: require('../assets/images/NDRRMC.png') },
+    { name: 'Department of Health', phone: '8711-1001', image: require('../assets/images/DOH.png') },
+    { name: 'Phillipine National Red Cross ', phone: '143', image: require('../assets/images/Red Cross.png') }
   ];
 
+  
+  
+      const makeCall = (phoneNumber) => {
+        const phoneUrl = `tel:${phoneNumber}`;
+        Linking.openURL(phoneUrl).catch((err) => 
+          console.error('Failed to make a call:', err)
+        );
+      };
+
+  
   return (
  
        <ScrollView >
@@ -29,7 +39,7 @@ const EmergencyContacts = ({navigation}) => {
 
             <View style={styles.contactsContainer}>
               {emergencyContacts.map((contact, index) => (
-                <TouchableOpacity key={index} style={styles.contactButton}>
+                <TouchableOpacity key={index} style={styles.contactButton}  onPress={() => makeCall(contact.phone)}>
                   <Image source={contact.image} style={styles.contactImage} />
                   <Text style={styles.contactText}>{contact.name}</Text>
                   <Text style={styles.contactPhone}>{contact.phone}</Text>
@@ -50,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
-    marginVertical: 50
+    marginVertical: 20
   },
   title: {
     fontSize: 20,
@@ -66,7 +76,7 @@ const styles = StyleSheet.create({
     
   },
   contactButton: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: COLORS.armyGreen,
     padding: 15,
     borderRadius: 5,
     marginVertical: 10,
@@ -75,14 +85,14 @@ const styles = StyleSheet.create({
     
   },
   contactImage: {
-    width: 90,
-    height: 60,
+    width: 88,
+    height: 80,
     marginBottom: 10,
   },
   contactText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 18
+    fontSize: 15
   },
   contactPhone: {
     color: 'white',

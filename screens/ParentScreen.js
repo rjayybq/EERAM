@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Button, ScrollView,
-  TouchableOpacity, Pressable
+  TouchableOpacity, Pressable, Image, Linking
 } from 'react-native'
 import React from 'react'
 import MapView, { Marker } from 'react-native-maps';
@@ -23,7 +23,7 @@ const ParentScreen = ({navigation}) => {
     setActiveTab(tab);
   };
 
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
@@ -68,11 +68,25 @@ const ParentScreen = ({navigation}) => {
   //     }
   // };
 
+  const emergencyContacts = [
+    { name: 'Phillipine National Emergency ', phone: '911', image: require('../assets/images/hotline call.png') },
+    { name: 'Bureau of Fire Protection', phone: '02-8426-0219', image: require('../assets/images/BFP.png')  },
+    { name: 'Philippine National Police', phone: '02-8722-0650', image: require('../assets/images/PNP.png') },
+    { name: 'NDDRMC', phone: '02-8911-5601', image: require('../assets/images/NDRRMC.png') },
+    { name: 'Department of Health', phone: '8711-1001', image: require('../assets/images/DOH.png') },
+    { name: 'Phillipine National Red Cross ', phone: '143', image: require('../assets/images/Red Cross.png') }
+  ];
 
+  const makeCall = (phoneNumber) => {
+    const phoneUrl = `tel:${phoneNumber}`;
+    Linking.openURL(phoneUrl).catch((err) => 
+      console.error('Failed to make a call:', err)
+    );
+  };
 
   return (
-    <SafeAreaView >
-      <ScrollView >
+    
+      <SafeAreaView>
         <View style={styles.content}>
           {activeTab === 'Emergency' && <Text style={styles.text}></Text>}
           {activeTab === 'Add' && <Text style={styles.text}></Text>}
@@ -86,26 +100,35 @@ const ParentScreen = ({navigation}) => {
        <TouchableOpacity onPress={handleLogout}>
           <Entypo name="log-out" size={30} style={styles.logout}/>
         </TouchableOpacity>   
-     
+
+          <View style={styles.header}>
+            <Text style={styles.welcomeText}>Welcome, {user?.name || "Guardian"}!</Text>
+          </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Announcement</Text>
           <View style={styles.card}>
             <Text>School will be closed on Friday for maintenance.</Text>
           </View>
-          <View style={styles.contactContainer}>
 
-                
-          </View>
         </View>
 
         {/* Map View Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Map View</Text>
+        <ScrollView vertically={true}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Emergency Contacts</Text>
 
-          
-
-        </View>
+              <View style={styles.contactsContainer}>
+                {emergencyContacts.map((contact, index) => (
+                  <TouchableOpacity key={index} style={styles.contactButton}  onPress={() => makeCall(contact.phone)}>
+                    <Image source={contact.image} style={styles.contactImage} />
+                    <Text style={styles.contactText}>{contact.name}</Text>
+                    <Text style={styles.contactPhone}>{contact.phone}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+          </View>
+         </ScrollView>
 
         
         
@@ -120,17 +143,17 @@ const ParentScreen = ({navigation}) => {
             <Text style={styles.tabText}>Monitor</Text>
           </Pressable>
 
-          <Pressable 
+          {/* <Pressable 
             style={styles.tabItem} 
-            onPress={() => [handleTabPress('Safe'), navigation.navigate('Location')]}
+            onPress={() => [handleTabPress('Safe'), navigation.navigate('Safe')]}
           >
             <Icon name="map-marker" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
-            <Text style={styles.tabText}>Safe Location</Text>
-          </Pressable>
+            <Text style={styles.tabText}>Dko paalam ilalgay dito</Text>
+          </Pressable> */}
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>       
+      </SafeAreaView>
+    
   )
 }
 
@@ -139,7 +162,7 @@ export default ParentScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 50,
+    marginVertical: 5,
     backgroundColor: '#f2f2f2',
   },
   section: {
@@ -179,7 +202,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   card: {
-    backgroundColor: COLORS.darkGreen,  
+    backgroundColor: COLORS.grey,  
     padding: 10,
     borderRadius: 8,
     marginVertical: 5,
@@ -198,9 +221,9 @@ const styles = StyleSheet.create({
     height: 200,
     borderTopLeftRadius: 70,
     borderTopRightRadius: 70,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.fadeGreen,
     marginHorizontal: 0,
-    marginVertical: 380,
+    marginVertical: 10,
     
   },
   text: {
@@ -216,7 +239,7 @@ const styles = StyleSheet.create({
     borderColor: '#e0e0e0',
     borderTopLeftRadius: 70,
     borderTopRightRadius: 70,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.fadeGreen,
     
     
   },
@@ -235,5 +258,53 @@ const styles = StyleSheet.create({
   },
   logout : {
     marginLeft: 350
-  }
+    
+  },
+  header: {
+    padding: 20,
+    
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  contactsContainer: {
+    flexDirection: 'row', // Ensure contacts are arranged vertically
+    justifyContent: 'center',
+    flexWrap: 'wrap', // Center the contact buttons horizontally
+    justifyContent: 'space-evenly',
+    
+    
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    marginLeft: 20
+  },
+  contactButton: {
+    backgroundColor: COLORS.armyGreen,
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '30%',
+    alignItems: 'center',
+    
+  },
+  contactImage: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+  },
+  contactText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15
+  },
+  contactPhone: {
+    color: 'white',
+    fontSize: 14,
+    marginTop: 5
+  },
+  
 });

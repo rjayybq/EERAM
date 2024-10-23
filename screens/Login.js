@@ -17,51 +17,17 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [message, setMessage] = useState();
-
+  const [loading, setLoading] = useState('');
 
   const { login } = useContext(AuthContext);
 
   const handleLogin = () => {
     login(email, password, role);
+    setLoading(true);
+    setMessage(''); 
   };
 
-  // const handleLogin = async () => {
-  //   if (!email || !password) {
-  //     setMessage('All fields are required');
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.post('http://10.0.2.2:8001/api/login', {
-  //       email: email,
-  //       password: password,
-  //       role: role,
-  //     });
-  //     const resData = response.data;
-
-  //     if (resData.status === true) {
-  //       // Store user info (you may use a context or local storage)
-  //       const { token, user } = resData;
-
-  //       // Store the token and user data in AsyncStorage
-  //       await AsyncStorage.setItem('userToken', token);
-  //       await AsyncStorage.setItem('userData', JSON.stringify(user));
-
-  //       // Navigate based on the user's role
-  //       if (user.role === 'student') {
-  //         navigation.navigate('StudentPage');
-  //       } else if (user.role === 'guardian') {
-  //         navigation.navigate('Parent');
-  //       }
-  //     } else {
-  //       setMessage(resData.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Login error:', error);
-  //     setMessage('Login failed, please try again.');
-  //   }
-  // };
-
+  
   
   
  
@@ -71,7 +37,7 @@ const Login = ({navigation}) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView showsVerticalScrollIndicator = {false}>
           <View style={styles.loginContainer}>
-            <StatusBar style="auto"></StatusBar>
+             <StatusBar style="auto"></StatusBar>
             <ImageBackground source={uddBG} resizeMode="cover" style={styles.bgImg}>
             <View style={styles.overlay}></View>
               <View style={styles.imageContainer}>
@@ -146,9 +112,9 @@ export default Login
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
-    paddingTop: 30,
+    
     alignItems: "center",
-    backgroundColor: COLORS.primary,
+   
   },
   bgImg: {
     width: "100%",

@@ -1,82 +1,104 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable, ImageBackground } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { COLORS, FONTS } from '../constants/Theme'; 
 import eeram from '../assets/images/EERAM-logo.png'
-import bgImg from '../assets/images/BG.jpg'
-import uddBG from '../assets/images/UDD-BG.jpg'
-import { COLORS, FONTS } from '../constants/Theme'
 
-
-
-const Welcome = ({navigation}) => {
+const Welcome = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-        <ImageBackground source={bgImg} resizeMode="cover" style={styles.bgImg}>
-                <Image resizeMode='contain' source={eeram} style={styles.welcomeLogo} />
-                <Text style={styles.welcomeTitle}>Edu Emergency Risk Assessment {"\n"} Monitoring System</Text>
-                <TouchableOpacity style={styles.Btn}>
-                    <Pressable style={styles.welcomeBtn1} onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.btnText}>Login</Text>
-                    </Pressable>
-                    <Pressable style={styles.welcomeBtn2} onPress={ () => navigation.navigate('Register') }>
-                        <Text style={styles.btnText}>Register</Text>
-                    </Pressable>
-                </TouchableOpacity>
-        </ImageBackground>
-    </View>
-  )
-}
+    <View colors={['#AEEEEE', '#B2E0B2']} style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Image source={eeram} style={styles.logo} />
+        <Text style={styles.title}>Welcome to the Edu Emergency Risk Assessment Monitoring System</Text>
+        <Text style={styles.tagline}>"Your safety, our mission!"</Text>
 
-export default Welcome
+        <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
+
+        
+       
+      </View>
+
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Privacy Policy</Text>
+        <Text style={styles.footerText}>|</Text>
+        <Text style={styles.footerText}>Terms of Service</Text>
+      </View>
+    </View>
+  );
+};
+
+export default Welcome;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.light
-      },
-      welcomeLogo: {
-        width: 380,
-        marginBottom: -140
-      },
-      welcomeTitle: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginBottom: 80,
-        fontFamily: FONTS.medium,
-        marginBottom:80
-      },
-      welcomeBtn1: {
-        borderWidth: 1,
-        width: "80%",
-        height: 50,
-        borderRadius: 10,
-        backgroundColor: COLORS.fadeGreen,
-        marginHorizontal: 10, 
-      },
-      welcomeBtn2: {
-        borderWidth: 1,
-        width: "80%",
-        height: 50,
-        borderRadius: 10,
-        backgroundColor: COLORS.darkGreen,
-        marginVertical: 20,
-        marginBottom: 70
-      },
-      Btn: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        
-        
-      },
-      btnText: {
-        textAlign: 'center',
-        padding: 15,
-        color: 'black',
-      },
-      bgImg: {
-        width: '100%',
-        height: "100%"
-      }
+  container: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 300,
+    height: 200,
+    marginBottom: 30,
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10,
+    fontFamily: FONTS.bold,
+    color: COLORS.darkBlue,
+  },
+  tagline: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginBottom: 40,
+    fontFamily: FONTS.light,
+    color: COLORS.darkGrey,
+  },
+  loginButton: {
+    backgroundColor: COLORS.fadeGreen,
+    width: '80%',
+    padding: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginBottom: 20,
+    elevation: 2,
+  },
+  registerButton: {
+    backgroundColor: COLORS.darkGreen,
+    width: '80%',
+    padding: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginBottom: 20,
+    elevation: 2,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  illustration: {
+    width: '100%',
+    height: 150,
+    marginTop: 20,
+    resizeMode: 'contain',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 20,
+  },
+  footerText: {
+    color: COLORS.lightGrey,
+    fontSize: 14,
+  },
 });

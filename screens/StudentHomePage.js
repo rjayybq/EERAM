@@ -24,13 +24,13 @@ const StudentHomePage = ({ navigation }) => {
 
 
 
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Login' }],
+      routes: [{ name:  'Login' }],
     });
   };
 
@@ -90,9 +90,13 @@ const StudentHomePage = ({ navigation }) => {
           <Entypo name="log-out" size={30} style={styles.logout}/>
         </TouchableOpacity>   
      
-
-        <View style={styles.section}>
+          <View style={styles.header}>
+              <Text style={styles.welcomeText}>Welcome, {user?.name || "Student"}!</Text>
+            </View>
+          <View style={styles.section}>
+        
           <Text style={styles.sectionTitle}>Announcement</Text>
+          
           <View style={styles.card}>
             <Text>School will be closed on Friday for maintenance.</Text>
           </View>
@@ -191,7 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   card: {
-    backgroundColor: COLORS.darkGreen,  
+    backgroundColor: COLORS.fadeGreen,  
     padding: 10,
     borderRadius: 8,
     marginVertical: 5,
@@ -210,9 +214,9 @@ const styles = StyleSheet.create({
     height: 200,
     borderTopLeftRadius: 70,
     borderTopRightRadius: 70,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.fadeGreen,
     marginHorizontal: 0,
-    marginVertical: 400,
+    marginVertical: 345,
     
   },
   text: {
@@ -228,7 +232,7 @@ const styles = StyleSheet.create({
     borderColor: '#e0e0e0',
     borderTopLeftRadius: 70,
     borderTopRightRadius: 70,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.fadeGreen,
     
     
   },
@@ -247,5 +251,13 @@ const styles = StyleSheet.create({
   },
   logout : {
     marginLeft: 350
-  }
+  },
+  header: {
+    padding: 20,
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily: FONTS.medium
+  },
 });
