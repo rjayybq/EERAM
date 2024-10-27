@@ -128,7 +128,7 @@ const StudentHomePage = ({ navigation }) => {
 
             <Pressable 
               style={styles.tabItem} 
-              onPress={() => [handleTabPress('Safe'), navigation.navigate('Safe')]}
+              onPress={() => [handleTabPress('Safe'), navigation.navigate('Announcement')]}
             >
               <Icon name="map-marker" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
               <Text style={styles.tabText}>Safe Location</Text>

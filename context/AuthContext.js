@@ -90,8 +90,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  //  const fetchAnnouncements = async () => {
+  //   try {
+  //     const response = await axios.get('http://10.0.2.2:8001/api/announcements');
+  //     return response.data.announcements;
+  //   } catch (error) {
+  //     console.error('Error fetching announcements:', error);
+  //     throw error;
+  //   }
+  // };
+  const fetchAnnouncements = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('userToken');
+      const response = await axios.get('http://10.0.2.2:8001/api/announcements', {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
+      return response.data.announcements; // Adjust if the structure differs
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+      throw error;
+    }
+  };
+    
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, message }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, message, fetchAnnouncements }}>
       {children}
     </AuthContext.Provider>
   );

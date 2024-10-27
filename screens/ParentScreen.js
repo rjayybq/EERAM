@@ -143,13 +143,13 @@ const ParentScreen = ({navigation}) => {
             <Text style={styles.tabText}>Monitor</Text>
           </Pressable>
 
-          {/* <Pressable 
+          <Pressable 
             style={styles.tabItem} 
-            onPress={() => [handleTabPress('Safe'), navigation.navigate('Safe')]}
+            onPress={() => [handleTabPress('Announcement'), navigation.navigate('Announcement')]}
           >
-            <Icon name="map-marker" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
-            <Text style={styles.tabText}>Dko paalam ilalgay dito</Text>
-          </Pressable> */}
+            <Icon name="map-marker" size={30} color={activeTab === 'Announcement' ? '#000' : '#666'} />
+            <Text style={styles.tabText}>Announcement</Text>
+          </Pressable>
           </View>
         </View>
       </SafeAreaView>

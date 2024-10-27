@@ -11,6 +11,7 @@ import StudentHomePage from '../screens/StudentHomePage';
 import AddGuardian from '../screens/AddGuardian';
 import SafeLocation from '../screens/SafeLocation';
 import LoadingScreen from '../components/LoadingScreen';
+import AnnouncementsScreen from '../screens/AnnouncementScreen';
 
 const NavigationHandler = () => {
   const Stack = createNativeStackNavigator();
@@ -28,7 +29,7 @@ const NavigationHandler = () => {
         user.role === 'guardian' ? (
           <>
             <Stack.Screen name="Guardian" component={ParentScreen} options={{ headerShown: false }} />
-
+            <Stack.Screen name="Announcement" component={AnnouncementsScreen} options={{ headerShown: false }} />
           </>
         ) : (
           <>
@@ -36,6 +37,7 @@ const NavigationHandler = () => {
             <Stack.Screen name="Emergency" component={EmergencyContacts} options={{ headerShown: false }} />
             <Stack.Screen name="Add" component={AddGuardian} options={{ headerShown: false }} />
             <Stack.Screen name="Safe" component={SafeLocation} options={{ headerShown: false }} />
+            <Stack.Screen name="Announcement" component={AnnouncementsScreen} options={{ headerShown: false }} />
           </>
         )
       ) : (
