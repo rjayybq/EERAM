@@ -53,11 +53,11 @@ export const AuthProvider = ({ children }) => {
       if (resData.status === true) {
         const { token, user } = resData;
 
-        // Store user data and token
+        
         await AsyncStorage.setItem('userToken', token);
         await AsyncStorage.setItem('userData', JSON.stringify(user));
 
-        // Set the token and user in state
+        
         setToken(token);
         setUser(user);
 
@@ -73,10 +73,10 @@ export const AuthProvider = ({ children }) => {
       } else if (error.request) {
         setMessage('Network error, please check your connection.');
       } else {
-        
         setMessage('An error occurred, please try again.');
       }
     }
+    setLoading(false);
   };
 
   const logout = async () => {

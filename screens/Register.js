@@ -43,10 +43,10 @@ const Register = ({navigation}) => {
       setMessage('All fields are required.');
       return;
     }
-  
-    setLoading(true);
-    setMessage(''); 
-  
+      setLoading(true);
+       setMessage(''); 
+
+    
     try {
       const payload = {
         name,
@@ -58,12 +58,12 @@ const Register = ({navigation}) => {
       };
   
       
-  
-
+      
       const endpoint = role === 'student' ? 'register/student' : 'register/guardian';
-      const response = await axios.post(`http://10.0.2.2:8001/api/${endpoint}`, payload);
+      const response = await axios.post(`http://10.0.2.2:8001/api/${endpoint}`, payload, );
   
       
+  
       console.log('Response Data:', response.data);
       if (response.data.message && response.data.message.includes('registered successfully')) {
         navigation.navigate('Login');

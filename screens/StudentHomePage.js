@@ -76,42 +76,32 @@ const StudentHomePage = ({ navigation }) => {
 
     <SafeAreaView >
       <ScrollView >
-        <View style={styles.content}>
-          {activeTab === 'Emergency' && <Text style={styles.text}></Text>}
-          {activeTab === 'Add' && <Text style={styles.text}></Text>}
-          {activeTab === 'Safe' && <Text style={styles.text}></Text>}
-
-          
-
-          
-        </View>
+          <View style={styles.content}>
+            {activeTab === 'Emergency' && <Text style={styles.text}></Text>}
+            {activeTab === 'Add' && <Text style={styles.text}></Text>}
+            {activeTab === 'Safe' && <Text style={styles.text}></Text>}
+          </View>
        
-       <TouchableOpacity onPress={handleLogout}>
-          <Entypo name="log-out" size={30} style={styles.logout}/>
-        </TouchableOpacity>   
+          <TouchableOpacity onPress={handleLogout}>
+            <Entypo name="log-out" size={30} style={styles.logout}/>
+          </TouchableOpacity>   
      
           <View style={styles.header}>
               <Text style={styles.welcomeText}>Welcome, {user?.name || "Student"}!</Text>
             </View>
           <View style={styles.section}>
-        
-          <Text style={styles.sectionTitle}>Announcement</Text>
-          
-          <View style={styles.card}>
-            <Text>School will be closed on Friday for maintenance.</Text>
-          </View>
-          <View style={styles.contactContainer}>
-
-                
-          </View>
+            <Text style={styles.sectionTitle}>Announcement</Text>
+            
+            <View style={styles.card}>
+              <Text>School will be closed on Friday for maintenance.</Text>
+            </View>
+            <View style={styles.contactContainer}>   
+            </View>
         </View>
 
-        {/* Map View Section */}
+        
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Map View</Text>
-
-          
-
         </View>
 
         
@@ -120,29 +110,29 @@ const StudentHomePage = ({ navigation }) => {
         <View style={styles.formBar}>
           
           <View style={styles.tabBar}>
-          <Pressable 
-            style={styles.tabItem} 
-            onPress={() => [handleTabPress('Emergency'), navigation.navigate('Emergency')]}
-          >
-            <Ionicons name="call" size={30} color={activeTab === 'Emergency' ? '#000' : '#666'} />
-            <Text style={styles.tabText}> Hotline</Text>
-          </Pressable>
+            <Pressable 
+              style={styles.tabItem} 
+              onPress={() => [handleTabPress('Emergency'), navigation.navigate('Emergency')]}
+            >
+              <Ionicons name="call" size={30} color={activeTab === 'Emergency' ? '#000' : '#666'} />
+              <Text style={styles.tabText}> Hotline</Text>
+            </Pressable>
 
-          <Pressable 
-            style={styles.tabItem} 
-            onPress={() => [handleTabPress('Add'), navigation.navigate('Add')]}
-          >
-            <Icon name="plus" size={30} color={activeTab === 'Add' ? '#000' : '#666'} />
-            <Text style={styles.tabText}>Add</Text>
-          </Pressable>
+            <Pressable 
+              style={styles.tabItem} 
+              onPress={() => [handleTabPress('Add'), navigation.navigate('Add')]}
+            >
+              <Icon name="plus" size={30} color={activeTab === 'Add' ? '#000' : '#666'} />
+              <Text style={styles.tabText}>Add</Text>
+            </Pressable>
 
-          <Pressable 
-            style={styles.tabItem} 
-            onPress={() => [handleTabPress('Safe'), navigation.navigate('Safe')]}
-          >
-            <Icon name="map-marker" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
-            <Text style={styles.tabText}>Safe Location</Text>
-          </Pressable>
+            <Pressable 
+              style={styles.tabItem} 
+              onPress={() => [handleTabPress('Safe'), navigation.navigate('Safe')]}
+            >
+              <Icon name="map-marker" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
+              <Text style={styles.tabText}>Safe Location</Text>
+            </Pressable>
           </View>
         </View>
       </ScrollView>
@@ -240,23 +230,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
-    marginTop: 15
+    marginTop: 20
   },
   tabText: {
-    fontSize: 14,
+    fontSize: 15,
     color: 'black',
     fontFamily: FONTS.medium,
     textAlign: 'center'
   },
   logout : {
-    marginLeft: 350
+    marginLeft: 350,
+    marginTop: 20
   },
   header: {
     padding: 20,
+    marginBottom: -17
   },
   welcomeText: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: 'bold',
     fontFamily: FONTS.medium
   },

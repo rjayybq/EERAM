@@ -29,7 +29,7 @@ const EmergencyContacts = ({navigation}) => {
   
   return (
  
-       <ScrollView >
+       <ScrollView showsVerticalScrollIndicator={false} >
         <Pressable style={styles.backButton} onPress={() => navigation.navigate('StudentPage')}>
              <Ionicons name="arrow-back" size={30}  />
         </Pressable>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
-    marginVertical: 20
+    marginVertical: 5
   },
   title: {
     fontSize: 20,
@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   contactsContainer: {
-    flexDirection: 'row', // Ensure contacts are arranged vertically
+    flexDirection: 'row', 
     justifyContent: 'center',
-    flexWrap: 'wrap', // Center the contact buttons horizontally
+    flexWrap: 'wrap', 
     justifyContent: 'space-evenly',
     
     

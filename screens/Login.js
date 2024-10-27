@@ -23,7 +23,7 @@ const Login = ({navigation}) => {
 
   const handleLogin = () => {
     login(email, password, role);
-    setLoading(true);
+    setLoading(false);
     setMessage(''); 
   };
 

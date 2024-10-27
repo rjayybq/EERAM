@@ -4,12 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/Theme';
 
 const AddGuardian = ({ navigation}) => {
-  const [message, setMessage] = useState("Guardian Added", "The guardian has been added successfully.");
-  const handleAddGuardian = () => {
-    
-    Alert.alert("Guardian Added", "The guardian has been added successfully.");
-    
-  };
+  
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -40,7 +35,7 @@ const AddGuardian = ({ navigation}) => {
         keyboardType="email-address"
       />
 
-      <Pressable style={styles.submitButton} onPress={handleAddGuardian}>
+      <Pressable style={styles.submitButton} >
         <Text style={styles.submitButtonText}>Add Guardian</Text>
       </Pressable>
 

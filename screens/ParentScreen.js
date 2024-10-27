@@ -257,12 +257,12 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   logout : {
-    marginLeft: 350
-    
+    marginLeft: 350,
+    marginTop: 15
   },
   header: {
     padding: 20,
-    
+    marginBottom: -17
   },
   welcomeText: {
     fontSize: 24,
