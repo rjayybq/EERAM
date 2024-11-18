@@ -13,11 +13,7 @@ const Welcome = ({ navigation }) => {
         <Text style={styles.tagline}>"Your safety, our mission!"</Text>
 
         <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.buttonText}>Register</Text>
+          <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
 
         
@@ -85,6 +81,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+   
   },
   illustration: {
     width: '100%',

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Button, ScrollView,
-  TouchableOpacity, Pressable
+  TouchableOpacity, Pressable, Image, Linking
 } from 'react-native'
 import React from 'react'
 import MapView, { Marker } from 'react-native-maps';
@@ -9,10 +9,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Material from '@expo/vector-icons/MaterialIcons';
+import Feather from '@expo/vector-icons/Feather';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+
 
 const StudentHomePage = ({ navigation }) => {
 
@@ -24,62 +26,41 @@ const StudentHomePage = ({ navigation }) => {
 
 
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, fetchStudentWithGuardians } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
-    navigation.reset({
-      index: 0,
-      routes: [{ name:  'Login' }],
-    });
   };
 
+  
+  
 
+  const emergencyContacts = [
+    { name: '911', phone: '911', image: require('../assets/images/hotline call.png') },
+    { name: 'BFP', phone: '02-8426-0219', image: require('../assets/images/BFP.png')  },
+    { name: 'PNP', phone: '02-8722-0650', image: require('../assets/images/PNP.png') },
+    { name: 'NDDRMC', phone: '02-8911-5601', image: require('../assets/images/NDRRMC.png') },
+    { name: 'DOH', phone: '8711-1001', image: require('../assets/images/DOH.png') },
+    { name: 'RED CROSS', phone: '143', image: require('../assets/images/Red Cross.png') }
+  ];
 
-  //   const logout = async () => {
-  //     try {
-          
-  //         const token = await AsyncStorage.getItem('userToken');
+  const makeCall = (phoneNumber) => {
+    const phoneUrl = `tel:${phoneNumber}`;
+    Linking.openURL(phoneUrl).catch((err) => 
+      console.error('Failed to make a call:', err)
+    );
+  };
 
-  //         if (token) {
-              
-  //             const response = await axios.post('http://10.0.2.2:8001/api/logout', {}, {
-  //                 headers: {
-  //                     'Authorization': `Bearer ${token}`
-  //                 }
-  //             });
-
-  //             if (response.data.status) {
-                  
-  //                 await AsyncStorage.removeItem('userToken');
-                  
-                 
-  //                 navigation.reset({
-  //                     index: 0,
-  //                     routes: [{ name: 'Login' }],
-  //                 });
-
-  //                 alert(response.data.message);
-  //             } else {
-  //                 alert('Logout failed, please try again.');
-  //             }
-  //         }
-  //     } catch (error) {
-  //         console.error('Error logging out:', error);
-  //         alert('An error occurred during logout. Please try again.');
-  //     }
-  // };
-
-
-
+ 
+  
   return (
 
     <SafeAreaView >
-      <ScrollView >
+      
           <View style={styles.content}>
-            {activeTab === 'Emergency' && <Text style={styles.text}></Text>}
-            {activeTab === 'Add' && <Text style={styles.text}></Text>}
             {activeTab === 'Safe' && <Text style={styles.text}></Text>}
+            {activeTab === 'Add' && <Text style={styles.text}></Text>}
+            {activeTab === 'Announcement' && <Text style={styles.text}></Text>}
           </View>
        
           <TouchableOpacity onPress={handleLogout}>
@@ -88,54 +69,53 @@ const StudentHomePage = ({ navigation }) => {
      
           <View style={styles.header}>
               <Text style={styles.welcomeText}>Welcome, {user?.name || "Student"}!</Text>
-            </View>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Announcement</Text>
+          </View>
+          
             
-            <View style={styles.card}>
-              <Text>School will be closed on Friday for maintenance.</Text>
-            </View>
-            <View style={styles.contactContainer}>   
-            </View>
-        </View>
 
-        
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Map View</Text>
-        </View>
-
-        
-        
-
+          
+        <Text style={styles.title}>Emergency Contacts</Text>
+       <View style={styles.container}>
+              <View style={styles.contactsContainer}>
+                {emergencyContacts.map((contact, index) => (
+                  <TouchableOpacity key={index} style={styles.contactButton}  onPress={() => makeCall(contact.phone)}>
+                    <Image source={contact.image} style={styles.contactImage} />
+                    <Text style={styles.contactText}>{contact.name}</Text>
+                    <Text style={styles.contactPhone}>{contact.phone}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+          </View>
+      
         <View style={styles.formBar}>
           
           <View style={styles.tabBar}>
             <Pressable 
               style={styles.tabItem} 
-              onPress={() => [handleTabPress('Emergency'), navigation.navigate('Emergency')]}
+              onPress={() => [handleTabPress('Safe'), navigation.navigate('Safe')]}
             >
-              <Ionicons name="call" size={30} color={activeTab === 'Emergency' ? '#000' : '#666'} />
-              <Text style={styles.tabText}> Hotline</Text>
+              <FontAwesome5 name="running" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
+              <Text style={styles.tabText}>Safe Location</Text>
             </Pressable>
 
             <Pressable 
               style={styles.tabItem} 
               onPress={() => [handleTabPress('Add'), navigation.navigate('Add')]}
             >
-              <Icon name="plus" size={30} color={activeTab === 'Add' ? '#000' : '#666'} />
+              <Feather name="map-pin" size={30} color={activeTab === 'Add' ? '#000' : '#666'} />
               <Text style={styles.tabText}>Add</Text>
             </Pressable>
 
             <Pressable 
               style={styles.tabItem} 
-              onPress={() => [handleTabPress('Safe'), navigation.navigate('Announcement')]}
+              onPress={() => [handleTabPress('Announcement'), navigation.navigate('StudentAnnounce')]}
             >
-              <Icon name="map-marker" size={30} color={activeTab === 'Safe' ? '#000' : '#666'} />
-              <Text style={styles.tabText}>Safe Location</Text>
+                          <Material name="local-post-office" size={30} color={activeTab === 'Announcement' ? '#000' : '#666'} />
+              <Text style={styles.tabText}>Announcement</Text>
             </Pressable>
           </View>
         </View>
-      </ScrollView>
+      
     </SafeAreaView>       
   )
 }
@@ -145,7 +125,7 @@ export default StudentHomePage
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 50,
+   
     backgroundColor: '#f2f2f2',
   },
   section: {
@@ -165,20 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontFamily: FONTS.light
   },
-  contactContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-  },
-  contactButton: {
-    backgroundColor: '#4A90E2',
-    padding: 10,
-    borderRadius: 5,
-  },
-  contactText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+  
   map: {
     width: '100%',
     height: 200,
@@ -206,8 +173,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 70,
     backgroundColor: COLORS.fadeGreen,
     marginHorizontal: 0,
-    marginVertical: 345,
-    
+    marginVertical: 520,
+    elevation: 1,
   },
   text: {
     fontSize: 24,
@@ -230,7 +197,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 20,
+    
   },
   tabText: {
     fontSize: 15,
@@ -247,8 +215,48 @@ const styles = StyleSheet.create({
     marginBottom: -17
   },
   welcomeText: {
-    fontSize: 25,
+    fontSize: 21,
     fontWeight: 'bold',
-    fontFamily: FONTS.medium
+    fontFamily: FONTS.medium,
+    marginBottom: 10
+  },
+  contactsContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'center',
+    flexWrap: 'wrap', 
+    justifyContent: 'space-evenly',
+    
+    
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginLeft: 25
+  },
+  contactButton: {
+    backgroundColor: COLORS.armyGreen,
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '40%',
+   
+    alignItems: 'center',
+    
+  },
+  contactImage: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+  },
+  contactText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15
+  },
+  contactPhone: {
+    color: 'white',
+    fontSize: 14,
+    marginTop: 5
   },
 });

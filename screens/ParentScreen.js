@@ -7,13 +7,14 @@ import { COLORS, FONTS } from '../constants/Theme';
 import { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo'
+import Entypo from 'react-native-vector-icons/Entypo';
+import Material from '@expo/vector-icons/MaterialIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import axios from 'axios';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-
+import Announcement from './AnnouncementScreen';
 
 const ParentScreen = ({navigation}) => {
 
@@ -23,50 +24,14 @@ const ParentScreen = ({navigation}) => {
     setActiveTab(tab);
   };
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout,  } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    });
   };
 
 
-  //   const logout = async () => {
-  //     try {
-          
-  //         const token = await AsyncStorage.getItem('userToken');
 
-  //         if (token) {
-              
-  //             const response = await axios.post('http://10.0.2.2:8001/api/logout', {}, {
-  //                 headers: {
-  //                     'Authorization': `Bearer ${token}`
-  //                 }
-  //             });
-
-  //             if (response.data.status) {
-                 
-  //                 await AsyncStorage.removeItem('userToken');
-                  
-                  
-  //                 navigation.reset({
-  //                     index: 0,
-  //                     routes: [{ name: 'Login' }],
-  //                 });
-
-  //                 alert(response.data.message);
-  //             } else {
-  //                 alert('Logout failed, please try again.');
-  //             }
-  //         }
-  //     } catch (error) {
-  //         console.error('Error logging out:', error);
-  //         alert('An error occurred during logout. Please try again.');
-  //     }
-  // };
 
   const emergencyContacts = [
     { name: 'Phillipine National Emergency ', phone: '911', image: require('../assets/images/hotline call.png') },
@@ -85,75 +50,80 @@ const ParentScreen = ({navigation}) => {
   };
 
   return (
-    
-      <SafeAreaView>
-        <View style={styles.content}>
-          {activeTab === 'Emergency' && <Text style={styles.text}></Text>}
-          {activeTab === 'Add' && <Text style={styles.text}></Text>}
-          {activeTab === 'Safe' && <Text style={styles.text}></Text>}
+    <SafeAreaView>
+      <View style={styles.content}>
+        {activeTab === "Emergency" && <Text style={styles.text}></Text>}
+        {activeTab === "Add" && <Text style={styles.text}></Text>}
+        {activeTab === "Safe" && <Text style={styles.text}></Text>}
+      </View>
 
-          
+      <TouchableOpacity onPress={handleLogout}>
+        <Entypo name="log-out" size={30} style={styles.logout} />
+      </TouchableOpacity>
 
-          
-        </View>
-       
-       <TouchableOpacity onPress={handleLogout}>
-          <Entypo name="log-out" size={30} style={styles.logout}/>
-        </TouchableOpacity>   
+      <View style={styles.header}>
+        <Text style={styles.welcomeText}>Welcome, {user?.name || "Guardian"}!</Text>
+      </View>
 
-          <View style={styles.header}>
-            <Text style={styles.welcomeText}>Welcome, {user?.name || "Guardian"}!</Text>
-          </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Announcement</Text>
-          <View style={styles.card}>
-            <Text>School will be closed on Friday for maintenance.</Text>
-          </View>
-
-        </View>
-
-        {/* Map View Section */}
-        <ScrollView vertically={true}>
-          <View style={styles.container}>
-            <Text style={styles.title}>Emergency Contacts</Text>
-
-              <View style={styles.contactsContainer}>
-                {emergencyContacts.map((contact, index) => (
-                  <TouchableOpacity key={index} style={styles.contactButton}  onPress={() => makeCall(contact.phone)}>
-                    <Image source={contact.image} style={styles.contactImage} />
-                    <Text style={styles.contactText}>{contact.name}</Text>
-                    <Text style={styles.contactPhone}>{contact.phone}</Text>
-                  </TouchableOpacity>
-                ))}
+      {/* <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Announcement</Text>
+              <View style={styles.card}>
+                <Announcement/>
               </View>
+
+            </View> */}
+
+      {/* Map View Section */}
+      <ScrollView vertically={true}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Emergency Contacts</Text>
+          <View style={styles.contactsContainer}>
+            {emergencyContacts.map((contact, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.contactButton}
+                onPress={() => makeCall(contact.phone)}
+              >
+                <Image source={contact.image} style={styles.contactImage} />
+                <Text style={styles.contactText}>{contact.name}</Text>
+                <Text style={styles.contactPhone}>{contact.phone}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
-         </ScrollView>
+        </View>
+      </ScrollView>
 
-        
-        
-
-        <View style={styles.formBar}>
-          <View style={styles.tabBar}>
-          <Pressable 
-            style={styles.tabItem} 
-            onPress={() => [handleTabPress('Add'), navigation.navigate('Add')]}
+      <View style={styles.formBar}>
+        <View style={styles.tabBar}>
+          <Pressable
+            style={styles.tabItem}
+            onPress={() => [handleTabPress("Add"), navigation.navigate("Add")]}
           >
-            <Entypo name="eye" size={30} color={activeTab === 'Add' ? '#000' : '#666'} />
+            <Entypo
+              name="eye"
+              size={30}
+              color={activeTab === "Add" ? "#000" : "#666"}
+            />
             <Text style={styles.tabText}>Monitor</Text>
           </Pressable>
 
-          <Pressable 
-            style={styles.tabItem} 
-            onPress={() => [handleTabPress('Announcement'), navigation.navigate('Announcement')]}
+          <Pressable
+            style={styles.tabItem}
+            onPress={() => [
+              handleTabPress("Announcement"),
+              navigation.navigate("Announcement"),
+            ]}
           >
-            <Icon name="map-marker" size={30} color={activeTab === 'Announcement' ? '#000' : '#666'} />
+            <Material
+              name="local-post-office"
+              size={30}
+              color={activeTab === "Announcement" ? "#000" : "#666"}
+            />
             <Text style={styles.tabText}>Announcement</Text>
           </Pressable>
-          </View>
         </View>
-      </SafeAreaView>
-    
+      </View>
+    </SafeAreaView>
   )
 }
 
@@ -196,11 +166,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  map: {
-    width: '100%',
-    height: 200,
-    borderRadius: 8,
-  },
+  
   card: {
     backgroundColor: COLORS.grey,  
     padding: 10,
@@ -223,7 +189,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 70,
     backgroundColor: COLORS.fadeGreen,
     marginHorizontal: 0,
-    marginVertical: 10,
+    marginVertical: 110,
     
   },
   text: {
@@ -267,6 +233,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 30
   },
   contactsContainer: {
     flexDirection: 'row', // Ensure contacts are arranged vertically

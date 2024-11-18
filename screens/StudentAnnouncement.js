@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Pressable , Image} from 'react-native';
 import { useContext } from 'react';
@@ -6,8 +7,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS, FONTS } from '../constants/Theme';
 import uddlogo from '../assets/images/UDD-LOGO.png'
 
-const AnnouncementsScreen = ({ navigation }) => {
-  const [announcements, setAnnouncements] = useState([]);
+const StudentAnnouncement = ({navigation}) => {
+    const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -28,7 +29,6 @@ const AnnouncementsScreen = ({ navigation }) => {
 
     getAnnouncements();
   }, []);
-
   const renderAnnouncement = ({ item }) => (
     <View style={{ padding: 15, borderBottomWidth: 1, borderColor: '#ccc', borderRadius: 10, backgroundColor: COLORS.fadeGreen, marginVertical: 10 }}>
       <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.title}</Text>
@@ -46,12 +46,11 @@ const AnnouncementsScreen = ({ navigation }) => {
   if (error) {
     return <Text style={{ color: 'red' }}>{error}</Text>;
   }
-
   return (
     <View style={{ flex: 1, padding: 20, }}>
         <Pressable style={{ padding: 5, marginBottom: 30,
           backgroundColor: COLORS.green, width: 50, borderRadius: 10 }} 
-          onPress={() => navigation.navigate('Guardian')}>
+          onPress={() => navigation.navigate('StudentPage')}>
               <Ionicons name="arrow-back" size={30} color={"white"}  />
         </Pressable>
 
@@ -65,7 +64,8 @@ const AnnouncementsScreen = ({ navigation }) => {
         ListEmptyComponent={<Text>No announcements found.</Text>}
       />
     </View>
-  );
-};
+  )
+}
 
-export default AnnouncementsScreen;
+export default StudentAnnouncement
+

@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { AuthProvider } from './context/AuthContext';
-
+import { navigationRef } from './components/navigationRef';
 
 export default function App() {
   
@@ -30,7 +30,7 @@ export default function App() {
   
   return (
     <AuthProvider>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
          <NavigationHandler />
       </NavigationContainer>
   </AuthProvider>

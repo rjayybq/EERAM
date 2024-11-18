@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = ({navigation}) => {
 
   const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [message, setMessage] = useState();
@@ -22,7 +23,7 @@ const Login = ({navigation}) => {
   const { login } = useContext(AuthContext);
 
   const handleLogin = () => {
-    login(email, password, role);
+    login(identifier, password, role);
     setLoading(false);
     setMessage(''); 
   };
@@ -57,14 +58,17 @@ const Login = ({navigation}) => {
             </ImageBackground>
 
             <View style={styles.formContainer}>
-
+              <View style={styles.login}>
+                <Text style={styles.loginText}>LOGIN</Text>
+              </View>
+              
             <Text style={styles.validation}>{message}</Text>
            
               <TextInput
                 keyboardType="email-address"
                 placeholder="Email"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                value={identifier}
+                onChangeText={(text) => setIdentifier(text)}
                 style={styles.formInput}
                 
               >
@@ -83,12 +87,10 @@ const Login = ({navigation}) => {
                       <Picker.Item label="Student" value="student" />
                       <Picker.Item label="Guardian" value="guardian" />
               </Picker>
-              <Text style={styles.forgot}>Dont have an account?</Text>
+             
               <Text
                 style={styles.forgot}
-                onPress={() => navigation.navigate("Register")}
               >
-                Sign Up
               </Text>
               <View style={styles.outerButton}>
                 <Pressable
@@ -207,6 +209,7 @@ const styles = StyleSheet.create({
   forgot: {
     flexDirection: 'row',
     color: COLORS.primary,
+    marginTop: -15
   },
   footer: {
     marginTop: "auto",
@@ -230,6 +233,19 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     marginHorizontal: 30,
     color: "#e32320",
-    },
+  },
+
+  loginText: {
+    fontSize: 25,
+    fontFamily: FONTS.medium,
+    color:  COLORS.primary,
+    textAlign: 'center'
+  },
+  login: {
+    backgroundColor: COLORS.darkGreen,
+    borderRadius: 70,
+    height: 40,
+    width: 120
+  }
     
 });

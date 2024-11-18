@@ -2,8 +2,50 @@ import { StyleSheet, Text, View, TextInput, ScrollView, Pressable, Alert } from 
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/Theme';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddGuardian = ({ navigation}) => {
+  const [studentId, setStudentId] = useState('');
+  const [guardianId, setGuardianId] = useState('');
+  const [guardianName, setGuardianName] = useState('');
+  const [guardianPassword, setGuardianPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const addGuardian = async () => {
+    try {
+      const token = '7|cQ5nFGqAtWfmLVkGhs0gm5YygRxPnSAuLDGmnYQG0f9154ea';
+      // const token = await AsyncStorage.getItem('token');
+      // if (!token) {
+      //   Alert.alert("Error", "Please log in first.");
+      //   return;
+      // }
+  
+      const response = await axios.post(
+        'http://10.0.2.2:8001/api/add-guardian',
+        {
+          student_id: studentId,
+          
+          name: guardianName,
+          password: guardianPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.data.status) {
+        Alert.alert("Success", "Guardian added successfully");
+      } else {
+        Alert.alert("Failed", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding guardian:", error);
+      Alert.alert("Error", error.response?.data?.message || "Network error");
+    }
+  };
   
 
   return (
@@ -14,28 +56,39 @@ const AddGuardian = ({ navigation}) => {
 
     <View style={styles.container}>
       <Text style={styles.title}>Add Guardian</Text>
-     
+      <Text>{message}</Text>
+      
+      <TextInput
+        style={styles.input}
+        placeholder="Student ID"
+        value={studentId}
+        onChangeText={(text) => setStudentId(text)}
+        keyboardType="default"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Guardian ID"
+        value={guardianId}
+        onChangeText={(text) => setGuardianId(text)}
+        keyboardType="default"
+      />
+  
       <TextInput
         style={styles.input}
         placeholder="Guardian Name"
-        placeholderTextColor="#999"
+        value={guardianName}
+        onChangeText={(text) => setGuardianName(text)}
       />
       
       <TextInput
         style={styles.input}
-        placeholder="Phone Number"
-        placeholderTextColor="#999"
-        keyboardType="phone-pad"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Email Address"
-        placeholderTextColor="#999"
-        keyboardType="email-address"
+        placeholder="Password"
+        value={guardianPassword}
+        onChangeText={(text) => setGuardianPassword(text)}
       />
 
-      <Pressable style={styles.submitButton} >
+      <Pressable style={styles.submitButton} onPress={addGuardian} >
         <Text style={styles.submitButtonText}>Add Guardian</Text>
       </Pressable>
 

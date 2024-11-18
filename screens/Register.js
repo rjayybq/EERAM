@@ -119,10 +119,9 @@ const Register = ({navigation}) => {
                 style={styles.formInput}
               />
               <Picker style={styles.formInput} selectedValue={role} onValueChange={setRole}>
-                <Picker.Item label="Student" value="student" />
+              
                 <Picker.Item label="Guardian" value="guardian" />
               </Picker>
-
               {/* Conditional fields based on the role */}
               {role === 'student' && (
                 <>

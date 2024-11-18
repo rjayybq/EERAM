@@ -29,12 +29,12 @@ const EmergencyContacts = ({navigation}) => {
   
   return (
  
-       <ScrollView showsVerticalScrollIndicator={false} >
+    <ScrollView showsVerticalScrollIndicator={false} >
         <Pressable style={styles.backButton} onPress={() => navigation.navigate('StudentPage')}>
-             <Ionicons name="arrow-back" size={30}  />
+              <Ionicons name="arrow-back" size={30}  />
         </Pressable>
 
-        <View style={styles.container}>
+      <View style={styles.container}>
            <Text style={styles.title}>Emergency Contacts</Text>
 
             <View style={styles.contactsContainer}>
@@ -46,8 +46,8 @@ const EmergencyContacts = ({navigation}) => {
                 </TouchableOpacity>
               ))}
             </View>
-        </View>
-      </ScrollView> 
+      </View>
+    </ScrollView> 
    
   )
 }
